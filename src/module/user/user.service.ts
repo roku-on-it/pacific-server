@@ -9,13 +9,6 @@ import { from, Observable } from 'rxjs';
 export class UserService {
   @GrpcMethod()
   register(payload: CreateUser): Observable<User> {
-    return from(
-      plainToInstance(User, payload)
-        .save()
-        .then((u) => {
-          console.log(u);
-          return u;
-        }),
-    );
+    return from(plainToInstance(User, payload).save());
   }
 }
