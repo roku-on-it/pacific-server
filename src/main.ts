@@ -14,8 +14,6 @@ async function bootstrap() {
     options: protobufRegistryService.services,
   });
 
-  console.log(protobufRegistryService.services);
-
   gRPCService.listen().then(() => {
     Logger.log('gRPC Server successfully started', NestApplication.name);
   });
