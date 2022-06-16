@@ -19,5 +19,6 @@ import * as Joi from 'joi';
       }),
     }),
   ],
+  exports: [ConfigModule],
 })
 export class AppConfigModule {}
