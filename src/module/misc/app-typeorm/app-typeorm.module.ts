@@ -1,8 +1,7 @@
-import { Module, OnModuleInit } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
-import { getManager } from 'typeorm';
 
 @Module({
   imports: [
@@ -28,15 +27,4 @@ import { getManager } from 'typeorm';
   ],
   exports: [TypeOrmModule],
 })
-export class AppTypeormModule implements OnModuleInit {
-  async onModuleInit(): Promise<void> {
-    await getManager().query(`
-    ALTER TABLE person_acquaintances_person
-    DROP CONSTRAINT IF EXISTS cannot_know_self;
-    
-    ALTER TABLE person_acquaintances_person
-    ADD CONSTRAINT cannot_know_self
-    CHECK ("personId_1" <> "personId_2");
-     `);
-  }
-}
+export class AppTypeormModule {}
