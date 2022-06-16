@@ -3,16 +3,16 @@ import { BeforeInsert, Column, Entity, Index } from 'typeorm';
 import { hash } from 'argon2';
 
 @Entity()
-@Index(['username'], { unique: true })
+@Index(['email'], { unique: true })
 export class User extends Substructure {
   @Column()
-  username: string;
+  email: string;
 
   @Column()
-  password: string;
+  masterPassword: string;
 
   @BeforeInsert()
   protected async beforeInsert(): Promise<void> {
-    this.password = await hash(this.password);
+    this.masterPassword = await hash(this.masterPassword);
   }
 }
