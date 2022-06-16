@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
 
-interface RegisterProtobufService {
+export interface RegisterProtobufService {
   package: string;
   protoPath: string;
 }
 
-interface ProtobufService {
+export interface ProtobufService {
   package: string[];
   protoPath: string[];
 }
 
 @Injectable()
-export class ProtobufRegistryService {
+export class AppProtoRegistryService {
   protected protobufServices: ProtobufService = {
     package: [],
     protoPath: [],
