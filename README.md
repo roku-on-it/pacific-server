@@ -41,7 +41,7 @@ $ npm run test:cov
 ## Further Documentation
 
 ### Adding new entities:
-- Create an entity module with a model. (user.module.ts`(Module)` user.service.ts`(gRPC Service)`, user.ts(`Active Model`), etc.)
+- Create an entity module with a model. (user.module.ts`(Module)` user.grpc.service.ts`(gRPC Service)`, user.ts(`Active Model`), etc.)
 - Create it's corresponding proto file
 - Move proto file to `src/module/misc/app-proto-registry/proto-files` so that proto file registry service register proto definitions.
 
