@@ -1,3 +1,6 @@
+import { IsUUID } from 'class-validator';
+
 export class RefInput {
-  id: number;
+  @IsUUID()
+  id: string;
 }
