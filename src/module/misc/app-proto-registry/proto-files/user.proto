@@ -2,19 +2,23 @@ syntax = "proto3";
 
 package user;
 
+import "common.proto";
+
 service UserService {
-  rpc Register(CreateUser) returns (User);
+  rpc Register(CreateUser) returns (common.User);
+  rpc Login(LoginInput) returns (LoginResponse);
 }
 
-message User {
-  string id = 1;
-  uint64 createdAt = 2;
-  uint64 updatedAt = 3;
-  optional uint64 deletedAt = 4;
-  string username = 5;
+message LoginResponse {
+  string token = 1;
 }
 
 message CreateUser {
-  string username = 1;
-  string password = 2;
+  string email = 1;
+  string masterPassword = 2;
+}
+
+message LoginInput {
+  string email = 1;
+  string masterPassword = 2;
 }

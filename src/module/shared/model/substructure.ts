@@ -16,7 +16,7 @@ import { NotFoundException } from '../exception/grpc/not-found-exception';
 
 export class Substructure extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @CreateDateColumn()
   createdAt: Date;

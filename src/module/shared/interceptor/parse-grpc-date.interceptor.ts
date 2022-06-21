@@ -14,11 +14,15 @@ export class ParseGrpcDateInterceptor implements NestInterceptor {
   ): Observable<any> {
     return next.handle().pipe(
       tap((entity) => {
-        for (const [key, value] of Object.entries(entity)) {
-          if (value instanceof Date) {
-            entity[key] = value.getTime();
+        if (null != entity) {
+          for (const [key, value] of Object.entries(entity)) {
+            if (value instanceof Date) {
+              entity[key] = value.getTime();
+            }
           }
         }
+
+        return entity;
       }),
     );
   }
