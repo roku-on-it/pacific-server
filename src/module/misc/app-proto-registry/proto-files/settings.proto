@@ -11,6 +11,5 @@ service SettingsService {
 }
 
 message Update {
-  bool theme = 1;
-  repeated string ipWhitelist = 2;
+  repeated string ipWhitelist = 1;
 }

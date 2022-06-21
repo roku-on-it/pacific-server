@@ -17,9 +17,6 @@ export class Settings extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @Column({ default: false })
-  theme: boolean;
-
   @Column({ type: 'simple-array', nullable: true, default: null })
   ipWhitelist: string[];
 
