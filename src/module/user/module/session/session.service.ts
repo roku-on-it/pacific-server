@@ -14,9 +14,9 @@ export class SessionService {
     token: string,
     ip: string,
     os: OsType,
-    createdBy: User,
+    user: User,
   ): Observable<Session> {
-    const { ipWhitelist } = createdBy.settings;
+    const { ipWhitelist } = user.settings;
 
     if (ipWhitelist?.length > 0 && !ipWhitelist.includes(ip)) {
       throw new UnauthenticatedException();
@@ -31,7 +31,7 @@ export class SessionService {
         id: token,
         ip,
         os,
-        createdBy,
+        user,
       }).save(),
     );
   }

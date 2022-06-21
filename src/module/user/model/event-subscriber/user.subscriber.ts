@@ -13,9 +13,9 @@ export class UserSubscriber implements EntitySubscriberInterface<User> {
   }
 
   async afterInsert({
-    entity: createdBy,
+    entity: user,
     manager,
   }: InsertEvent<User>): Promise<void> {
-    await manager.getRepository(Settings).save({ createdBy });
+    await manager.getRepository(Settings).save({ user });
   }
 }

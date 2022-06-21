@@ -20,10 +20,10 @@ export class User extends Substructure {
   @Column()
   masterPassword: string;
 
-  @OneToMany(() => Session, (s) => s.createdBy)
+  @OneToMany(() => Session, (s) => s.user)
   sessions: Session[];
 
-  @OneToOne(() => Settings, (s) => s.createdBy)
+  @OneToOne(() => Settings, (s) => s.user)
   settings: Settings;
 
   @BeforeInsert()

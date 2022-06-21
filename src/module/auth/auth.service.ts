@@ -32,7 +32,7 @@ export class AuthService {
 
   findByEmail(email: string): Observable<User> {
     return from(
-      User.findOneOrFail({
+      User.findOneOrThrow({
         where: { email },
         relations: ['settings'],
       }),

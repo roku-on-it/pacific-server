@@ -25,5 +25,5 @@ export class Settings extends BaseEntity {
 
   @OneToOne(() => User, { nullable: false })
   @JoinColumn({ name: 'id' })
-  createdBy: User;
+  user: User;
 }

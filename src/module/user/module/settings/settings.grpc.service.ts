@@ -1,18 +1,19 @@
 import { GrpcService } from '../../../shared/decorator/class/grpc-service';
 import { GrpcMethod, Payload } from '@nestjs/microservices';
 import { UpdateSettings } from './input/update-settings';
-import { CurrentUser } from '../../../shared/decorator/param/current-user';
+import { CurrentSession } from '../../../shared/decorator/param/current-session';
 import { plainToClassFromExist } from 'class-transformer';
 import { User } from '../../model/user';
 import { map, Observable, switchMap } from 'rxjs';
 import { Settings } from './model/settings';
+import { Session } from '../session/model/session';
 
 @GrpcService()
 export class SettingsService {
   @GrpcMethod()
   update(
     @Payload() payload: UpdateSettings,
-    @CurrentUser(['settings']) user: Observable<User>,
+    @CurrentSession(['user.settings']) user: Observable<User>,
   ): Observable<Settings> {
     return user.pipe(
       switchMap((user) => plainToClassFromExist(user.settings, payload).save()),
@@ -20,9 +21,9 @@ export class SettingsService {
   }
 
   @GrpcMethod()
-  list(
-    @CurrentUser(['settings']) user: Observable<User>,
+  settings(
+    @CurrentSession(['user.settings']) session: Observable<Session>,
   ): Observable<Settings> {
-    return user.pipe(map((user) => user.settings));
+    return session.pipe(map((session) => session.user.settings));
   }
 }

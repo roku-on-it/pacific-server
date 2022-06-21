@@ -2,7 +2,6 @@ import {
   BaseEntity,
   CreateDateColumn,
   DeleteDateColumn,
-  EntityNotFoundError,
   FindOneOptions,
   PrimaryGeneratedColumn,
   SaveOptions,
@@ -27,14 +26,25 @@ export class Substructure extends BaseEntity {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  static findOneOrFail(args: FindOneOptions) {
-    return super.findOneOrFail(args).catch((error) => {
-      if (error instanceof EntityNotFoundError) {
-        throw new NotFoundException(this.name + ' not found');
-      }
+  static findOneOrThrow<T extends Substructure>(
+    this: {
+      new (): T;
+    } & typeof Substructure,
+    options: FindOneOptions<T>,
+  ): Promise<T> {
+    const { where, ...rest } = options;
+    return super
+      .createQueryBuilder()
+      .where(where)
+      .setFindOptions(rest as FindOneOptions<BaseEntity>)
+      .getOne()
+      .then((entity) => {
+        if (null == entity) {
+          throw new NotFoundException(this.name + ' not found');
+        }
 
-      throw error;
-    });
+        return entity as unknown as T;
+      });
   }
 
   save(options?: SaveOptions): Promise<this> {

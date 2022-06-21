@@ -6,7 +6,7 @@ import "common.proto";
 import "google/protobuf/empty.proto";
 
 service SettingsService {
-  rpc List (google.protobuf.Empty) returns (common.Settings);
+  rpc Settings (google.protobuf.Empty) returns (common.Settings);
   rpc Update (Update) returns (common.Settings);
 }
 

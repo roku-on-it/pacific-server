@@ -6,7 +6,7 @@ import "google/protobuf/empty.proto";
 
 service SessionService {
   rpc List (google.protobuf.Empty) returns (stream Session);
-  rpc Delete (DeleteSession) returns (google.protobuf.Empty);
+  rpc Delete (DeleteSession) returns (Session);
 }
 
 message Session {
@@ -26,5 +26,5 @@ message Session {
 }
 
 message DeleteSession {
-  string id = 1;
+  string token = 1;
 }

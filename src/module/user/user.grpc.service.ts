@@ -34,13 +34,13 @@ export class UserService {
       catchError(() =>
         throwError(() => new UnauthenticatedException('Invalid credentials')),
       ),
-      switchMap((createdBy) => {
+      switchMap((user) => {
         const [ip] = metadata.get('ip');
         const [os] = metadata.get('os');
         const token = randomUUID().replace(/-/g, '');
 
         return this.sessionService
-          .createSession(token, <string>ip, <OsType>(<unknown>os), createdBy)
+          .createSession(token, <string>ip, <OsType>(<unknown>os), user)
           .pipe(map(() => ({ token })));
       }),
     );
