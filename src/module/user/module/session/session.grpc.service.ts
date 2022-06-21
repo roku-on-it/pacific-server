@@ -1,4 +1,4 @@
-import { GrpcMethod, GrpcService, Payload } from '@nestjs/microservices';
+import { GrpcMethod, Payload } from '@nestjs/microservices';
 import { CurrentSession } from '../../../shared/decorator/param/current-session';
 import {
   from,
@@ -12,6 +12,7 @@ import {
 import { User } from '../../model/user';
 import { Session } from './model/session';
 import { UnauthenticatedException } from '../../../shared/exception/grpc/unauthenticated-exception';
+import { GrpcService } from '../../../shared/decorator/class/grpc-service';
 
 @GrpcService()
 export class SessionService {
