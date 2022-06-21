@@ -5,19 +5,26 @@ package session;
 import "google/protobuf/empty.proto";
 
 service SessionService {
-  rpc Sessions (google.protobuf.Empty) returns (stream Session);
+  rpc List (google.protobuf.Empty) returns (stream Session);
+  rpc Delete (DeleteSession) returns (google.protobuf.Empty);
 }
 
 message Session {
   string id = 1;
   uint64 createdAt = 2;
   string ip = 3;
+
   enum Os {
-    WINDOWS = 0;
-    ANDROID = 1;
-    MACOS = 2;
-    IOS = 3;
-    LINUX = 4;
+    Windows = 0;
+    Android = 1;
+    macOS = 2;
+    iOS = 3;
+    Linux = 4;
   }
+
   Os os = 4;
+}
+
+message DeleteSession {
+  string id = 1;
 }

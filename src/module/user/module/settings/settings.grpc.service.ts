@@ -10,7 +10,7 @@ import { Settings } from './model/settings';
 @GrpcService()
 export class SettingsService {
   @GrpcMethod()
-  updateSettings(
+  update(
     @Payload() payload: UpdateSettings,
     @CurrentUser(['settings']) user: Observable<User>,
   ): Observable<Settings> {
@@ -20,7 +20,7 @@ export class SettingsService {
   }
 
   @GrpcMethod()
-  settings(
+  list(
     @CurrentUser(['settings']) user: Observable<User>,
   ): Observable<Settings> {
     return user.pipe(map((user) => user.settings));

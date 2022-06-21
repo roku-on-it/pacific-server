@@ -6,10 +6,8 @@ import { Session } from './model/session';
 
 @GrpcService()
 export class SessionService {
-  @GrpcMethod() // Server streaming
-  sessions(
-    @CurrentUser(['sessions']) user: Observable<User>,
-  ): Observable<Session> {
+  @GrpcMethod() // Server streamingg
+  list(@CurrentUser(['sessions']) user: Observable<User>): Observable<Session> {
     const subject = new Subject<Session>();
 
     user.pipe(pluck('sessions'), mergeAll()).subscribe({
