@@ -16,8 +16,6 @@ export const CurrentSession = createParamDecorator(
     const session = Session.findOneOrThrow({
       where: { id: <string>qid },
       relations,
-    }).catch(() => {
-      throw new UnauthenticatedException();
     });
 
     return from(session);
