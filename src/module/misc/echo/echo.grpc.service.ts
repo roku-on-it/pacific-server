@@ -6,13 +6,13 @@ import {
   ServerUnaryCall,
   ServerWritableStream,
 } from '@grpc/grpc-js';
-import { InvalidArgumentException } from '../shared/exception/grpc/invalid-argument-exception';
+import { InvalidArgumentException } from '../../shared/exception/grpc/invalid-argument-exception';
 import {
   ClientStream,
   DuplexStream,
   ServerStream,
   UnaryCall,
-} from '../shared/decorator/method/grpc';
+} from '../../shared/decorator/method/grpc';
 
 interface ExampleRequest {
   name: string;
