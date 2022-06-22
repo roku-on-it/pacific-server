@@ -1,5 +1,5 @@
 import { GrpcService } from '../shared/decorator/class/grpc-service';
-import { Ctx, GrpcMethod, Payload } from '@nestjs/microservices';
+import { Ctx, Payload } from '@nestjs/microservices';
 import { User } from './model/user';
 import { plainToInstance } from 'class-transformer';
 import { CreateUser } from './input/create-user';
@@ -12,6 +12,7 @@ import { randomUUID } from 'crypto';
 import { Metadata } from '@grpc/grpc-js';
 import { SessionService } from './module/session/session.service';
 import { OsType } from './module/session/model/enum/os-type';
+import { UnaryCall } from '../shared/decorator/method/grpc';
 
 @GrpcService()
 export class UserService {
@@ -20,12 +21,12 @@ export class UserService {
     private sessionService: SessionService,
   ) {}
 
-  @GrpcMethod()
+  @UnaryCall()
   register(@Payload() payload: CreateUser): Observable<User> {
     return from(plainToInstance(User, payload).save());
   }
 
-  @GrpcMethod()
+  @UnaryCall()
   login(
     @Payload() payload: LoginPayload,
     @Ctx() metadata: Metadata,
