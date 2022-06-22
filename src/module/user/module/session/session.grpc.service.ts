@@ -1,4 +1,4 @@
-import { GrpcMethod, Payload } from '@nestjs/microservices';
+import { Payload } from '@nestjs/microservices';
 import { CurrentSession } from '../../../shared/decorator/param/current-session';
 import {
   from,
@@ -13,10 +13,11 @@ import { User } from '../../model/user';
 import { Session } from './model/session';
 import { UnauthenticatedException } from '../../../shared/exception/grpc/unauthenticated-exception';
 import { GrpcService } from '../../../shared/decorator/class/grpc-service';
+import { ServerStream, UnaryCall } from '../../../shared/decorator/method/grpc';
 
 @GrpcService()
 export class SessionService {
-  @GrpcMethod() // Server streaming
+  @ServerStream()
   list(
     @CurrentSession(['user.sessions']) currentUser: Observable<User>,
   ): Observable<Session> {
@@ -27,14 +28,16 @@ export class SessionService {
         subject.next(chunk);
       },
       complete: () => subject.complete(),
-      error: () => subject.complete(),
+      error: (err) => {
+        subject.error(err);
+      },
     });
 
     return subject.asObservable();
     // Or can be done as -> return user.pipe(pluck('sessions'), mergeAll());
   }
 
-  @GrpcMethod()
+  @UnaryCall()
   delete(
     @Payload('token') token: string,
     @CurrentSession() currentSession: Observable<Session>,
