@@ -1,4 +1,3 @@
-import { GrpcService } from '@nestjs/microservices';
 import {
   Metadata,
   ServerDuplexStream,
@@ -13,6 +12,7 @@ import {
   ServerStream,
   UnaryCall,
 } from '../../shared/decorator/method/grpc';
+import { GrpcService } from '../../shared/decorator/class/grpc-service';
 
 interface ExampleRequest {
   name: string;
