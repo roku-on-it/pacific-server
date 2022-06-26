@@ -14,10 +14,7 @@ export class EncryptionService {
 
   constructor(private configService: ConfigService) {}
 
-  async encrypt(
-    data: BinaryLike,
-    passphrase = this.passphrase,
-  ): Promise<string> {
+  encrypt(data: BinaryLike, passphrase = this.passphrase): string {
     const iv: Buffer = randomBytes(16);
     const encrypted: Buffer = createCipheriv(
       this.algorithm,
@@ -28,7 +25,7 @@ export class EncryptionService {
     return iv.toString('hex') + encrypted.toString('hex');
   }
 
-  async decrypt(data: string, passphrase = this.passphrase): Promise<string> {
+  decrypt(data: string, passphrase = this.passphrase): string {
     const iv = Buffer.from(data.slice(0, 32), 'hex');
     const encrypted = Buffer.from(data.slice(32), 'hex');
 
