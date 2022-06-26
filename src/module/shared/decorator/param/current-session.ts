@@ -6,8 +6,11 @@ import { from, Observable } from 'rxjs';
 
 export const CurrentSession = createParamDecorator(
   (relations: string[], context: ExecutionContext): Observable<Session> => {
-    const metadata: Metadata = context.switchToRpc().getContext();
-    const [qid] = metadata.get('qid');
+    const ctx: Metadata = context.switchToRpc().getContext();
+    const streamCtx = context.switchToRpc().getData();
+
+    // If ctx isn't instance of Metadata, it means it is a stream call
+    const [qid] = (ctx.get ?? streamCtx.metadata).get('qid');
 
     if (null == qid) {
       throw new UnauthenticatedException();
