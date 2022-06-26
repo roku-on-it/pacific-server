@@ -10,7 +10,7 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class EncryptionService {
   private algorithm = 'aes-256-ctr';
-  private passphrase = this.configService.get('SESSION_SECRET');
+  private passphrase = this.configService.get('PASSPHRASE');
 
   constructor(private configService: ConfigService) {}
 
