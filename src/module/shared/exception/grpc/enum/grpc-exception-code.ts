@@ -5,6 +5,7 @@ export enum GrpcExceptionCode {
   ALREADY_EXISTS = 6,
   PERMISSION_DENIED = 7,
   RESOURCE_EXHAUSTED = 8,
+  ABORTED = 10,
   OUT_OF_RANGE = 11,
   INTERNAL = 13,
   UNAVAILABLE = 14,
