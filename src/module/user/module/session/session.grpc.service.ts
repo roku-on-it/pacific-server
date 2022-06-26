@@ -17,6 +17,8 @@ import { ServerStream, UnaryCall } from '../../../shared/decorator/method/grpc';
 
 @GrpcService()
 export class SessionService {
+  static serviceName = 'SessionService';
+
   @ServerStream()
   list(
     @CurrentSession(['user.sessions']) currentUser: Observable<User>,

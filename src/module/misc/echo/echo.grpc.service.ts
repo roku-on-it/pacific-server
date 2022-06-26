@@ -31,7 +31,9 @@ interface ExampleDuplexResponse {
 }
 
 @GrpcService()
-export class EchoService {
+export class EchoGrpcService {
+  static serviceName = 'EchoService';
+
   @UnaryCall()
   unaryCall(
     payload: ExampleRequest,

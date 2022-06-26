@@ -9,6 +9,8 @@ import { Session } from '../session/model/session';
 
 @GrpcService()
 export class SettingsService {
+  static serviceName = 'SettingsService';
+
   @GrpcMethod()
   update(
     @Payload() payload: UpdateSettings,

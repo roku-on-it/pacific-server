@@ -15,7 +15,9 @@ import { OsType } from './module/session/model/enum/os-type';
 import { UnaryCall } from '../shared/decorator/method/grpc';
 
 @GrpcService()
-export class UserService {
+export class UserGrpcService {
+  static serviceName = 'UserService';
+
   constructor(
     private authService: AuthService,
     private sessionService: SessionService,

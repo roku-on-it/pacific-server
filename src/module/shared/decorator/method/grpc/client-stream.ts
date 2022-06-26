@@ -1,6 +1,9 @@
 import { GrpcStreamCall } from '@nestjs/microservices';
+import { GrpcServiceMethod } from './interface/grpc-service.method';
 
-export const ClientStream = (
-  service?: string,
-  method?: string,
-): MethodDecorator => GrpcStreamCall(service, method);
+export const ClientStream =
+  (method?: string): MethodDecorator =>
+  (target: GrpcServiceMethod, propertyKey, descriptor) => {
+    const service = target.constructor.serviceName;
+    return GrpcStreamCall(service, method)(target, propertyKey, descriptor);
+  };
