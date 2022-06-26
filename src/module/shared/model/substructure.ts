@@ -1,7 +1,6 @@
 import {
   BaseEntity,
   CreateDateColumn,
-  DeleteDateColumn,
   FindOneOptions,
   PrimaryGeneratedColumn,
   SaveOptions,
@@ -22,9 +21,6 @@ export class Substructure extends BaseEntity {
 
   @UpdateDateColumn()
   updatedAt: Date;
-
-  @DeleteDateColumn()
-  deletedAt: Date;
 
   static findOneOrThrow<T extends Substructure>(
     this: {
