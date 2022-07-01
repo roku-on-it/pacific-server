@@ -10,7 +10,7 @@ export const CurrentSession = createParamDecorator(
     const streamCtx = context.switchToRpc().getData();
 
     // If ctx isn't instance of Metadata, it means it is a stream call
-    const [qid] = (ctx.get ?? streamCtx.metadata).get('qid');
+    const [qid] = ((ctx.get ? ctx : null) ?? streamCtx.metadata).get('qid');
 
     if (null == qid) {
       throw new UnauthenticatedException();
