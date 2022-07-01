@@ -1,7 +1,7 @@
 import { GrpcService } from '../shared/decorator/class/grpc-service';
 import { Ctx, Payload } from '@nestjs/microservices';
 import { User } from './model/user';
-import { plainToInstance } from 'class-transformer';
+import { instanceToInstance, plainToInstance } from 'class-transformer';
 import { CreateUser } from './input/create-user';
 import { catchError, from, map, Observable, switchMap, throwError } from 'rxjs';
 import { LoginResponse } from '../auth/type/login-response';
@@ -25,7 +25,7 @@ export class UserGrpcService {
 
   @UnaryCall()
   register(@Payload() payload: CreateUser): Observable<User> {
-    return from(plainToInstance(User, payload).save());
+    return from(instanceToInstance(plainToInstance(User, payload).save()));
   }
 
   @UnaryCall()
