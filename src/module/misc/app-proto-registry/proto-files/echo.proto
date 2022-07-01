@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package echo;
+
+service EchoService {
+  // Unary
+  rpc UnaryCall (ExampleRequest) returns (ExampleResponse);
+
+  // Server streaming
+  rpc StreamingFromServer (ExampleRequest) returns (stream ExampleResponse);
+
+  // Client streaming
+  rpc StreamingFromClient (stream ExampleRequest) returns (ExampleResponse);
+
+  // Duplex streaming
+  rpc StreamingBothWays (stream ExampleDuplexRequest) returns (stream ExampleDuplexResponse);
+}
+
+message ExampleRequest {
+  string name = 1;
+}
+
+message ExampleResponse {
+  string message = 1;
+}
+
+message ExampleDuplexRequest {
+  int32 value = 1;
+}
+
+message ExampleDuplexResponse {
+  int32 result = 1;
+}

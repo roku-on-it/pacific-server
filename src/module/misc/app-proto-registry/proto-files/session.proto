@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package session;
+
+import "google/protobuf/empty.proto";
+
+service SessionService {
+  rpc List (google.protobuf.Empty) returns (stream Session);
+  rpc Delete (DeleteSession) returns (Session);
+}
+
+message Session {
+  string id = 1;
+  uint64 createdAt = 2;
+  string ip = 3;
+
+  enum Os {
+    Windows = 0;
+    Android = 1;
+    macOS = 2;
+    iOS = 3;
+    Linux = 4;
+  }
+
+  Os os = 4;
+}
+
+message DeleteSession {
+  string token = 1;
+}

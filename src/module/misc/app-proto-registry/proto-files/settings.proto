@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package settings;
+
+import "google/protobuf/empty.proto";
+
+service SettingsService {
+  rpc Settings (google.protobuf.Empty) returns (Settings);
+  rpc Update (UpdateSettings) returns (Settings);
+}
+
+message Settings {
+  uint64 updatedAt = 1;
+  bool theme = 2;
+  repeated string ipWhitelist = 3;
+}
+
+message UpdateSettings {
+  repeated string ipWhitelist = 1;
+}
