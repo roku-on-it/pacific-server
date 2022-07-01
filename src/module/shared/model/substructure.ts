@@ -11,14 +11,17 @@ import { Logger } from '@nestjs/common';
 import { InvalidArgumentException } from '../exception/grpc/invalid-argument-exception';
 import { AlreadyExistsException } from '../exception/grpc/already-exists-exception';
 import { NotFoundException } from '../exception/grpc/not-found-exception';
+import { Transform } from 'class-transformer';
 
 export class Substructure extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Transform(({ value }) => value.getTime())
   @CreateDateColumn()
   createdAt: Date;
 
+  @Transform(({ value }) => value.getTime())
   @UpdateDateColumn()
   updatedAt: Date;
 

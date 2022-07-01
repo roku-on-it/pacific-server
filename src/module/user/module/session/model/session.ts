@@ -10,12 +10,14 @@ import {
 import { User } from '../../../model/user';
 import { OsType } from './enum/os-type';
 import { NotFoundException } from '../../../../shared/exception/grpc/not-found-exception';
+import { Transform } from 'class-transformer';
 
 @Entity()
 export class Session extends BaseEntity {
   @PrimaryColumn()
   id: string;
 
+  @Transform(({ value }) => value.getTime())
   @CreateDateColumn()
   createdAt: Date;
 
