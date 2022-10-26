@@ -19,9 +19,6 @@ export class Settings extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @Column({ type: 'simple-array', nullable: true, default: null })
-  ipWhitelist: string[];
-
   @OneToOne(() => User, { nullable: false })
   @JoinColumn({ name: 'id' })
   user: User;

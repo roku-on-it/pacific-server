@@ -21,9 +21,6 @@ export class Session extends BaseEntity {
   @CreateDateColumn()
   createdAt: Date;
 
-  @Column('text')
-  ip: string;
-
   @Column({ type: 'enum', enum: OsType, nullable: true })
   os: OsType;
 

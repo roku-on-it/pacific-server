@@ -6,7 +6,6 @@ import { plainToInstance } from 'class-transformer';
 import { Session } from './model/session';
 import { from, Observable } from 'rxjs';
 import { User } from '../../model/user';
-import { UnauthenticatedException } from '../../../shared/exception/grpc/unauthenticated-exception';
 
 @Injectable()
 export class SessionService {
@@ -16,22 +15,12 @@ export class SessionService {
     os: OsType,
     user: User,
   ): Observable<Session> {
-    const { ipWhitelist } = user.settings;
-
-    if (ipWhitelist?.length > 0 && !ipWhitelist.includes(ip)) {
-      throw new UnauthenticatedException();
-    }
-
-    if (!isIPv4(<string>ip) || !OsType[Number(os)]) {
-      throw new InvalidArgumentException('Insufficient metadata');
-    }
-
     return from(
       plainToInstance(Session, {
-        id: token,
         ip,
-        os,
         user,
+        id: token,
+        os: OsType[os],
       }).save(),
     );
   }

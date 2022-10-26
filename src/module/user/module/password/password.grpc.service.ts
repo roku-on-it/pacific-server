@@ -28,6 +28,7 @@ import {
 } from 'class-transformer';
 import { ListPassword } from './input/list/list-password';
 import { PasswordList } from './model/password-list';
+import { ServerReadableStreamImpl } from '@grpc/grpc-js/build/src/server-call';
 
 @GrpcService()
 export class PasswordGrpcService {
@@ -88,14 +89,16 @@ export class PasswordGrpcService {
           passwordsToBeCreated.push(chunk);
         });
 
-        stream.on('end', async () => {
-          const passwords = await Password.save(passwordsToBeCreated);
-          const items = passwords.map((item) => {
-            item.password = this.encryptionService.encrypt(item.password);
-            return plainToInstance(Password, item);
-          });
+        stream.once('end', async () => {
+          if (!stream.cancelled) {
+            const passwords = await Password.save(passwordsToBeCreated);
+            const items = passwords.map((item) => {
+              item.password = this.encryptionService.encrypt(item.password);
+              return plainToInstance(Password, item);
+            });
 
-          respond(null, { items });
+            respond(null, { items });
+          }
         });
       },
       error: (err) => {

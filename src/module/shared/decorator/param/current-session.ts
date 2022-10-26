@@ -2,8 +2,7 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { Metadata } from '@grpc/grpc-js';
 import { Session } from '../../../user/module/session/model/session';
 import { UnauthenticatedException } from '../../exception/grpc/unauthenticated-exception';
-import { from, Observable } from 'rxjs';
-import { ServerDuplexStreamImpl } from '@grpc/grpc-js/build/src/server-call';
+import { catchError, EMPTY, from, Observable } from 'rxjs';
 
 export const CurrentSession = createParamDecorator(
   (relations: string[], context: ExecutionContext): Observable<Session> => {
@@ -14,18 +13,24 @@ export const CurrentSession = createParamDecorator(
     const [qid] = ((ctx?.get ? ctx : null) ?? streamCtx.metadata).get('qid');
 
     if (null == qid) {
-      if (streamCtx instanceof ServerDuplexStreamImpl) {
-        streamCtx.destroy(new UnauthenticatedException().getError() as Error);
-      }
+      streamCtx?.destroy(new UnauthenticatedException().getError() as Error);
 
       throw new UnauthenticatedException();
     }
 
-    const session = Session.findOneOrThrow({
-      where: { id: <string>qid },
-      relations,
-    });
+    return from(
+      Session.findOneOrThrow({
+        where: { id: <string>qid },
+        relations,
+      }).catch((reason) => {
+        streamCtx?.destroy(reason.getError() as Error);
 
-    return from(session);
+        throw reason;
+      }),
+    ).pipe(
+      catchError(() => {
+        return EMPTY;
+      }),
+    );
   },
 );

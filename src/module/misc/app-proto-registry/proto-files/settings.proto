@@ -12,9 +12,6 @@ service SettingsService {
 message Settings {
   uint64 updatedAt = 1;
   bool theme = 2;
-  repeated string ipWhitelist = 3;
 }
 
-message UpdateSettings {
-  repeated string ipWhitelist = 1;
-}
+message UpdateSettings {}

@@ -11,23 +11,13 @@ import {
   MaxLength,
   Min,
 } from 'class-validator';
+import { ILike } from 'typeorm';
 
 export class ListPassword {
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
-  @MaxLength(300)
-  username: string;
-
-  @IsOptional()
   @MaxLength(2048)
-  uri: string;
-
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(1000)
-  description: string;
+  query: string;
 
   @IsOptional()
   @IsInt()
@@ -45,12 +35,17 @@ export class ListPassword {
     const [items, total] = await Password.findAndCount({
       skip: this.pageIndex * this.pageSize,
       take: this.pageSize,
-      where: {
-        user: { id: user.id },
-        ...(this.username && { username: this.username }),
-        ...(this.uri && { uri: this.uri }),
-        ...(this.description && { description: this.description }),
-      },
+      where: [
+        { user: { id: user.id }, uri: ILike('%' + (this.query ?? '') + '%') },
+        {
+          user: { id: user.id },
+          username: ILike('%' + (this.query ?? '') + '%'),
+        },
+        {
+          user: { id: user.id },
+          description: ILike('%' + (this.query ?? '') + '%'),
+        },
+      ],
     });
 
     return {
